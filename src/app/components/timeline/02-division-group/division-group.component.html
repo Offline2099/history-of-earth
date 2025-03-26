@@ -1,0 +1,112 @@
+@for (block of group(); track block.name) {
+
+  <!-- Timeline Division Start Time -->
+  @if (
+    block.type === DivisionType.eon
+      ? direction() === TimelineDirection.chronological || $first
+      : direction() === TimelineDirection.chronological && !$first
+  ) {
+    <ng-template [ngTemplateOutlet]="boundary" [ngTemplateOutletContext]="{text: block.boundary.start}" />
+  }
+  
+  <!-- Timeline Division Container -->
+  <div
+    [id]="block.name | lowercase"
+    class="division-container type-{{block.type | lowercase}} background-{{block.name | lowercase}}"
+    [ngClass]="{'collapsed': block.isCollapsed}">
+
+    <!-- Timeline Division Header -->
+    <div class="division-header">
+      @for (ancestor of block.path; track ancestor.name) {
+        <span class="division-ancestor">
+          <span class="division-ancestor-title" (click)="navigateToBlock(ancestor)">
+            {{ancestor.name}} {{ancestor.type}}
+          </span>
+        </span>
+      }
+      <span class="division-title" (click)="toggleBlock(block)">
+        {{block.name}} {{block.type}}
+      </span>
+    </div>
+
+    <div class="division-data">
+
+      <div class="division-card">
+
+        <!-- Timeline Division Name and Duration -->
+        <div class="division-properties">
+
+          <div class="division-name">
+            <span>{{block.name}} {{block.type}}</span>
+            <button 
+              type="button"
+              class="division-collapse-button"
+              [ngClass]="{'button-above': block.image}"
+              (click)="toggleBlock(block)">
+              &#9650;
+            </button>
+          </div>
+
+          <div class="division-duration">
+            @for (line of block.duration[direction()]; track $index) {
+              <div>{{line}}</div>
+            }
+          </div>
+        </div>
+        
+        <!-- Timeline Division Image -->
+        @if (block.image) {
+          <div class="division-image-container">
+            <img src="./img/divisions/{{block.type | lowercase}}/{{block.name | lowercase}}.webp" [alt]="block.name" />
+          </div>
+        }
+
+      </div>
+
+      <!-- Timeline Division Description -->
+      <div class="division-description" [ngClass]="{'collapsed': block.isSummaryCollapsed}">
+        <div 
+          class="division-description-header"
+          (click)="toggleSummary(block)">
+          <span>{{block.type}} Summary</span>
+          <span class="division-description-header-triangle">&#9650;</span>
+        </div>
+        <ul>
+          @for (item of block.description; track $index) {
+            <li [innerHTML]="item"></li>
+          }
+        </ul>
+      </div>
+
+    </div>
+
+    <!-- Subdivisions -->
+    @if (block.subBlocks.length) {
+      <div class="subdivisions-container">
+        <div class="vertical-line-container">
+          <div class="vertical-line"></div>
+        </div>
+        <app-division-group [group]="block.subBlocks" [direction]="direction()" />
+      </div>
+    }
+    
+  </div>
+
+  <!-- Timeline Division End Time -->
+  @if (
+    block.type === DivisionType.eon
+      ? direction() === TimelineDirection.inverse || $last
+      : direction() === TimelineDirection.inverse && !$last
+  ) {
+    <ng-template [ngTemplateOutlet]="boundary" [ngTemplateOutletContext]="{text: block.boundary.end}" />
+  }
+}
+
+<!-- Timeline Division Boundary (Start or End Time) Template -->
+<ng-template #boundary let-text="text">
+  <div class="boundary">
+    <div class="boundary-line"></div>
+    <div class="boundary-value">{{text}}</div>
+    <div class="boundary-line"></div>
+  </div>
+</ng-template>

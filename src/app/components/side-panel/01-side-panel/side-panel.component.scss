@@ -1,0 +1,111 @@
+@use '../../../../styles-shared' as *;
+
+:host {
+  position: relative;
+}
+
+$side-panel-z-index: 10000;
+
+//=============================================================================
+//  Panel Button
+//=============================================================================
+
+.side-panel-button {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: $side-panel-z-index + 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 4px solid $border-accent-dark;
+  border-radius: 50%;
+  background: $bg-bright;
+  color: $text-normal;
+  user-select: none;
+  cursor: pointer;
+  animation: fade-in .3s;
+  transition: .2s;
+  .hamburger,
+  .cross {
+    animation: fade-in .3s;
+  }
+  .hamburger {
+    height: 38px;
+    font-size: 26px;
+  }
+  .cross {
+    height: 27px;
+    font-size: 16px;
+  }
+  @include hover {
+    border-radius: 10px;
+    background: $bg-brighter;
+  }
+  @include mobile {
+    display: none;
+    top: 5px;
+    right: 5px;
+    &.visible-on-mobile {
+      display: flex;
+    }
+  }
+}
+
+//=============================================================================
+//  Side Panel
+//=============================================================================
+
+$side-panel-width: 600px;
+
+.side-panel {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  right: -$side-panel-width;
+  z-index: $side-panel-z-index;
+  width: min(100% - 30px, $side-panel-width);
+  height: 100vh;
+  padding: 10px 10px 50px 10px;
+  border-left: 4px solid $border-accent-dark;
+  background: repeating-linear-gradient(
+    -45deg,
+    $bg-dark 0, $bg-dark 10px,
+    $bg-medium 11px, $bg-medium 12px
+  );
+  transition: .4s;
+  overflow-y: scroll;
+  @include no-scroll-bar;
+  &.panel-open {
+    right: 0;
+  }
+  .side-panel-header {
+    margin-bottom: 5px;
+    padding: 8px 50px 12px 10px;
+    color: $accent;
+    text-align: center;
+    font-size: 24px;
+    letter-spacing: .02em;
+    @include mobile {
+      font-size: 20px;
+    }
+  }
+}
+
+//=============================================================================
+//  Backdrop
+//=============================================================================
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: $side-panel-z-index - 1;
+  width: 100%;
+  height: 100vh;
+  background: $bg-black-transparent-thick;
+  animation: fade-in .4s;
+}

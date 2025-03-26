@@ -1,0 +1,53 @@
+// Simple Text
+$text-dark: #888;
+$text-dim: #999;
+$text-normal: #a8a8a8;
+$text-mildly-bright: #bbb;
+$text-bright: #ccc;
+$text-selection: #ddd;
+
+// Accent Text
+$accent: #9c815f;
+
+// Simple Backgrounds
+$bg-base: #080808;
+$bg-dark: #111;
+$bg-medium: #181818;
+$bg-bright: #222;
+$bg-brighter: #242424;
+
+// Transparent Black Backgrounds
+$bg-selection: rgba(0, 255, 204, .25);
+$bg-black-transparent-thin: rgba(0, 0, 0, .1);
+$bg-black-transparent-medium-thin: rgba(0, 0, 0, .15);
+$bg-black-transparent-medium: rgba(0, 0, 0, .2);
+$bg-black-transparent-medium-thick: rgba(0, 0, 0, .3);
+$bg-black-transparent-thick: rgba(0, 0, 0, .6);
+
+// Transparent White Backgrounds
+$bg-white-transparent-thin: rgba(255, 255, 255, .025);
+$bg-white-transparent-thick: rgba(255, 255, 255, .045);
+
+// Simple Borders
+$border-very-dark: #282828;
+$border-dark: #666;
+$border-medium: #777;
+$border-bright: #888;
+
+// Accent Borders
+$border-accent-dark: #3f3427;
+$border-accent: #9e8261;
+
+// Simple Shadows
+$shadow-darker: #080808;
+$shadow-dark: #111;
+$shadow-medium-dark: #141414;
+$shadow-medium-bright: #181818;
+$shadow-bright: #222;
+$shadow-brighter: #333;
+
+// Accent Shadows
+$shadow-accent: #2f271d;
+
+// Transparent Shadows
+$shadow-black-transparent-thin: rgba(0, 0, 0, .05);

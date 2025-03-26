@@ -1,0 +1,144 @@
+@use '../../../../styles-shared' as *;
+
+:host {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 150px;
+}
+
+//=============================================================================
+//  Timeline Direction Controls
+//=============================================================================
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 40px 20px;
+  color: $accent;
+  font-family: 'Inconsolata', monospace;
+  font-size: 22px;
+  font-weight: 400;
+  user-select: none;  
+  @include tablet {
+    margin: 35px 15px 25px 15px;
+    font-size: 20px;
+  }
+  @include mobile {
+    margin: 25px 10px 15px 10px;
+    font-size: 16px;
+  }
+}
+
+.controls-label {
+  margin-top: 3px;
+  @include mobile {
+    width: 100%;
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 3px;
+  }
+}
+
+button {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  margin-left: 15px;
+  padding: 3px 10px 5px 10px;
+  border: none;
+  border-radius: 5px;
+  background: $bg-bright;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  cursor: pointer;
+  transition: .2s;
+  .underline {
+    width: 0;
+    margin-top: 2px;
+    border-top: 1px dashed $border-medium;
+    transition: .2s;
+  }
+  &.selected .underline {
+    width: 100%;
+  }
+  @include hover {
+    box-shadow: 0 0 4px 4px $shadow-accent inset;
+  }
+  @include mobile {
+    margin: 5px;
+  }
+}
+
+//=============================================================================
+//  Wrapper
+//=============================================================================
+
+.timeline-wrapper {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding-bottom: 30px;
+  animation: fade-in-1 1s;
+  &.reversed {
+    flex-direction: column-reverse;
+    animation: fade-in-2 1s;
+  }
+}
+
+@keyframes fade-in-1 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-2 {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+//=============================================================================
+//  Images
+//=============================================================================
+
+.timeline-image {
+  display: flex;
+  position: relative;
+  width: min(600px, 100% - 20px);
+  margin: 20px auto;
+  justify-content: center;
+  user-select: none;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 10px;
+    box-shadow: 0 0 5px 5px $shadow-darker, 0 0 5px 5px $shadow-darker inset;
+    pointer-events: none;
+  }
+  img {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2/1;
+    border-radius: 10px;
+  }
+  @include mobile {
+    &:after,
+    img {
+      border-radius: 5px;
+    }
+  }
+}

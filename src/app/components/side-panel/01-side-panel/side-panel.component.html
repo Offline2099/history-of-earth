@@ -1,0 +1,23 @@
+<!-- Panel Button -->
+<button
+  type="button"
+  class="side-panel-button"
+  [ngClass]="{'visible-on-mobile': verticalOffset > 200 || isPanelOpen()}"
+  (click)="togglePanel()">
+  @if (isPanelOpen()) {
+    <span class="cross">&#9587;</span>
+  } @else {
+    <span class="hamburger">&#9776;</span>
+  }  
+</button>
+
+<!-- Panel -->
+<div class="side-panel" [ngClass]="{'panel-open': isPanelOpen()}">
+  <div class="side-panel-header">Quick Navigation</div>
+  <app-panel-block-group [group]="timeline()" [direction]="direction()" [(isPanelOpen)]="isPanelOpen" />
+</div>
+
+<!-- Backdrop -->
+@if (isPanelOpen()) {
+  <div class="backdrop" (click)="togglePanel()"></div>
+}

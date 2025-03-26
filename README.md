@@ -1,59 +1,23 @@
-# HistoryOfEarth
+# Geologic History of Earth
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.1.8.
+## Project Description
 
-## Development server
+A brief summary of the Earth's geologic history. Shows the structure of the geologic time scale in a simple interactive way. Gives a basic understanding of the key features and events that characterize each time interval.
 
-To start a local development server, run:
+* The core idea is to display the Earth's geologic history in a way that is both informative and visually enjoyable, providing a meaningful overview without going into too much detail.
 
-```bash
-ng serve
-```
+* Nested collapsible blocks offer a compact and intuitive layout for viewing and navigating the timeline structure, also making it easier to remember.
+    
+* The timeline can be displayed in either direction: chronologically (starting from the formation of the planet) or inversely (diving from the present into older periods and epochs).
+    
+* There is a quick navigation panel on the right that allows the user to jump to any specific timeline division with a single click.
+    
+* The site utilizes Angular components recursively. This approach allows to display a fairly large structure with relatively little code.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Technical Information
 
-## Code scaffolding
+This project is made with Angular.
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+* To run the app in the development mode, run `ng serve` in the project directory. Open [http://localhost:4200](http://localhost:4200) to view it in the browser. The page will reload if you make edits.
 
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+* To build the app in the production mode, run `ng build` in the project directory. The app will be saved to the `dist/` directory.

@@ -1,0 +1,24 @@
+<!-- Controls -->
+<div class="controls">
+  <div class="controls-label">Timeline Direction: </div>
+  @for (button of BUTTONS; track button.id) {
+    <button
+      type="button" 
+      [ngClass]="{'selected': button.id === direction()}"
+      (click)="setDirection(button.id)">
+      <div>{{button.text}}</div>
+      <div class="underline"></div>
+    </button>
+  }
+</div>
+
+<!-- Timeline -->
+<div class="timeline-wrapper" [ngClass]="{'reversed': direction() === TimelineDirection.inverse}">
+  <div class="timeline-image">
+    <img src="./img/timeline/timeline-start.webp" alt="">
+  </div>
+  <app-division-group [group]="timeline()" [direction]="direction()" />
+  <div class="timeline-image">
+    <img src="./img/timeline/timeline-end.webp" alt="">
+  </div>
+</div>

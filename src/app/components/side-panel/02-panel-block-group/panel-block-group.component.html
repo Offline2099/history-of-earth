@@ -1,0 +1,44 @@
+@for (block of group(); track block.name) {
+  <div 
+    class="side-panel-block type-{{block.type | lowercase}} background-{{block.name | lowercase}}"
+    [ngClass]="{
+      'collapsed': block.isSidePanelBlockCollapsed,
+      'no-subdivisions': block.subBlocks.length === 0
+    }">
+
+    <div class="side-panel-division">
+      
+      <!-- Division Link -->
+      <div class="division-link" (click)="navigateToBlock(block)">
+        <div class="division-name">{{block.name}} {{block.type}}</div>
+        <div class="division-duration">
+          @for (text of block.duration[direction()]; track $index) {
+            <span>{{text}}</span> 
+          }
+        </div>
+      </div>
+
+      <!-- Expand/Collapse Button -->
+      @if (block.subBlocks.length) {
+        <button type="button" class="subdivisions-button" (click)="toggleSidePanelBlock(block)">
+          @if (block.isSidePanelBlockCollapsed) {
+            <span class="subdivisions-button-triangle">&#9660;</span>
+          } @else {
+            <span class="subdivisions-button-triangle">&#9650;</span>
+          }
+        </button>
+      } 
+
+    </div>
+
+    <!-- Subdivisions -->
+    @if (block.subBlocks.length && !block.isSidePanelBlockCollapsed) {
+      <div class="subdivisions-container">
+        <div class="vertical-line"></div>
+        <app-panel-block-group [group]="block.subBlocks" [direction]="direction()" [(isPanelOpen)]="isPanelOpen" />
+      </div>
+    }
+
+  </div>
+}
+
