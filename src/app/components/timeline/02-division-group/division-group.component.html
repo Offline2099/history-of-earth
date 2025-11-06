@@ -1,4 +1,4 @@
-@for (block of group(); track block.name) {
+@for (block of group(); track block.id) {
 
   <!-- Timeline Division Start Time -->
   @if (
@@ -11,83 +11,75 @@
   
   <!-- Timeline Division Container -->
   <div
-    [id]="block.name | lowercase"
-    class="division-container type-{{block.type | lowercase}} background-{{block.name | lowercase}}"
+    [id]="block.id"
+    class="division-container type-{{TypeName[block.type] | lowercase}} background-{{block.id}}"
     [ngClass]="{'collapsed': block.isCollapsed}">
 
     <!-- Timeline Division Header -->
     <div class="division-header">
-      @for (ancestor of block.path; track ancestor.name) {
+      @for (ancestor of block.ancestors; track ancestor.id) {
         <span class="division-ancestor">
           <span class="division-ancestor-title" (click)="navigateToBlock(ancestor)">
-            {{ancestor.name}} {{ancestor.type}}
+            {{ancestor.name}} {{TypeName[ancestor.type]}}
           </span>
         </span>
       }
       <span class="division-title" (click)="toggleBlock(block)">
-        {{block.name}} {{block.type}}
+        {{block.name}} {{TypeName[block.type]}}
       </span>
     </div>
 
-    <div class="division-data">
+    @if (!block.isCollapsed) {
+      <div class="division-data">
 
-      <div class="division-card">
+        <div class="division-card">
 
-        <!-- Timeline Division Name and Duration -->
-        <div class="division-properties">
+          <!-- Timeline Division Name and Duration -->
+          <div class="division-properties">
 
-          <div class="division-name">
-            <span>{{block.name}} {{block.type}}</span>
-            <button 
-              type="button"
-              class="division-collapse-button"
-              [ngClass]="{'button-above': block.image}"
-              (click)="toggleBlock(block)">
-              &#9650;
-            </button>
+            <div class="division-name">
+              <span>{{block.name}} {{TypeName[block.type]}}</span>
+              <button 
+                type="button"
+                class="division-collapse-button"
+                [ngClass]="{'button-above': block.hasImage}"
+                (click)="toggleBlock(block)">
+                &#9650;
+              </button>
+            </div>
+
+            <div class="division-duration">
+              @for (line of block.duration[direction()]; track $index) {
+                <div>{{line}}</div>
+              }
+            </div>
           </div>
+          
+          <!-- Timeline Division Image -->
+          @if (block.hasImage) {
+            <div class="division-image-container">
+              <img src="./img/divisions/{{TypeName[block.type] | lowercase}}/{{block.id}}.webp" [alt]="block.name" />
+            </div>
+          }
 
-          <div class="division-duration">
-            @for (line of block.duration[direction()]; track $index) {
-              <div>{{line}}</div>
-            }
-          </div>
         </div>
-        
-        <!-- Timeline Division Image -->
-        @if (block.image) {
-          <div class="division-image-container">
-            <img src="./img/divisions/{{block.type | lowercase}}/{{block.name | lowercase}}.webp" [alt]="block.name" />
-          </div>
+
+        <!-- Timeline Division Description -->
+        @if (descriptions()![block.id]; as description) {
+          <app-description [block]="block" [description]="description" />
         }
 
       </div>
 
-      <!-- Timeline Division Description -->
-      <div class="division-description" [ngClass]="{'collapsed': block.isSummaryCollapsed}">
-        <div 
-          class="division-description-header"
-          (click)="toggleSummary(block)">
-          <span>{{block.type}} Summary</span>
-          <span class="division-description-header-triangle">&#9650;</span>
+      <!-- Subdivisions -->
+      @if (block.subBlocks.length) {
+        <div class="subdivisions-container">
+          <div class="vertical-line-container">
+            <div class="vertical-line"></div>
+          </div>
+          <app-division-group [group]="block.subBlocks" [direction]="direction()" />
         </div>
-        <ul>
-          @for (item of block.description; track $index) {
-            <li [innerHTML]="item"></li>
-          }
-        </ul>
-      </div>
-
-    </div>
-
-    <!-- Subdivisions -->
-    @if (block.subBlocks.length) {
-      <div class="subdivisions-container">
-        <div class="vertical-line-container">
-          <div class="vertical-line"></div>
-        </div>
-        <app-division-group [group]="block.subBlocks" [direction]="direction()" />
-      </div>
+      }
     }
     
   </div>

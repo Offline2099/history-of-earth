@@ -1,0 +1,32 @@
+<!-- Header (Tablet & Mobile) -->
+<div 
+  class="description-header"
+  (click)="toggleSummary(block())">
+  <span>{{TypeName[block().type]}} Summary</span>
+  <span class="triangle">&#9650;</span>
+</div>
+
+<!-- List -->
+<ul>
+  @for (part of description(); track $index) {
+    <li>
+      @if (part.category !== DescriptionPartCategory.general) {
+        <span class="badge">{{CategoryName[part.category]}}</span>
+      }
+      @for (element of part.elements; track $index) {
+        @if (typeof element === 'string') {
+          <ng-container>{{element}}</ng-container>
+        } @else {
+          @switch (element.type) {
+            @case (DescriptionElementType.emphasis) {
+              <strong>{{element.text}}</strong>
+            }
+            @case (DescriptionElementType.time) {
+              <span class="time">{{element.text}}</span>
+            }
+          }
+        }
+      }
+    </li>
+  }
+</ul>

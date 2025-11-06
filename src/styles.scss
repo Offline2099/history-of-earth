@@ -11,6 +11,10 @@ body {
   color: $text-normal;
   font-family: 'Open Sans', sans-serif;
   font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-smooth: antialiased;
+  text-rendering: optimizeLegibility;
   animation: fade-in 1s;
   cursor: default;
 }
@@ -24,10 +28,4 @@ body {
 ::selection {
   color: $text-selection;
   background: $bg-selection;
-}
-
-b {
-  color: $text-bright;
-  font-weight: 500;
-  letter-spacing: .02em;
 }

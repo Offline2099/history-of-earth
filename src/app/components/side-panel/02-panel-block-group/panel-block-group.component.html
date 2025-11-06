@@ -1,6 +1,6 @@
-@for (block of group(); track block.name) {
+@for (block of group(); track block.id) {
   <div 
-    class="side-panel-block type-{{block.type | lowercase}} background-{{block.name | lowercase}}"
+    class="side-panel-block type-{{TypeName[block.type] | lowercase}} background-{{block.id}}"
     [ngClass]="{
       'collapsed': block.isSidePanelBlockCollapsed,
       'no-subdivisions': block.subBlocks.length === 0
@@ -10,7 +10,7 @@
       
       <!-- Division Link -->
       <div class="division-link" (click)="navigateToBlock(block)">
-        <div class="division-name">{{block.name}} {{block.type}}</div>
+        <div class="division-name">{{block.name}} {{TypeName[block.type]}}</div>
         <div class="division-duration">
           @for (text of block.duration[direction()]; track $index) {
             <span>{{text}}</span> 

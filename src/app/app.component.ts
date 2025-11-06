@@ -16,8 +16,8 @@ import { TimelineService } from './services/timeline.service';
 })
 export class AppComponent {
 
-  readonly INTRO_TEXT = INTRO_TEXT;
-  readonly FOOTER_NOTES = FOOTER_NOTES;
+  readonly INTRO_TEXT: string[] = INTRO_TEXT;
+  readonly FOOTER_NOTES: string[] = FOOTER_NOTES;
 
   timelineBlocks: TimelineBlock[];
   timelineDirection = signal<TimelineDirection>(TimelineDirection.chronological);

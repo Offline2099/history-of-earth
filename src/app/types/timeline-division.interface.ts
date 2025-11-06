@@ -1,11 +1,10 @@
-import { DivisionType } from '../constants/division-type.enum';
+import { DivisionType } from '../constants/division-type';
 
 export interface TimelineDivision {
   type: DivisionType;
   name: string;
   start: number;
   end: number;
-  image?: boolean;
-  description: string[];
+  hasImage: boolean;
   subdivisions: TimelineDivision[];
 }

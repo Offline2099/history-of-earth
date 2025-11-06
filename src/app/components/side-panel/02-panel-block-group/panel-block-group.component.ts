@@ -1,8 +1,10 @@
 import { Component, HostBinding, input, model } from '@angular/core';
 import { LowerCasePipe, NgClass } from '@angular/common';
 import { TimelineDirection } from '../../../constants/timeline-direction.enum';
+import { DIVISION_TYPE, DivisionType } from '../../../constants/division-type';
 import { TimelineBlock } from '../../../types/timeline-block.interface';
 import { TimelineService } from '../../../services/timeline.service';
+import { DescriptionService } from '../../../services/description.service';
 
 @Component({
   selector: 'app-panel-block-group',
@@ -12,6 +14,8 @@ import { TimelineService } from '../../../services/timeline.service';
 })
 export class PanelBlockGroupComponent {
 
+  readonly TypeName = DIVISION_TYPE;
+
   @HostBinding('class.reversed') get isReversed(): boolean { 
     return this.direction() === TimelineDirection.inverse;
   }
@@ -20,7 +24,11 @@ export class PanelBlockGroupComponent {
   direction = input.required<TimelineDirection>();
   isPanelOpen = model.required<boolean>();
 
-  constructor(private timeline: TimelineService) {}
+  constructor(private timeline: TimelineService, private description: DescriptionService) {}
+
+  ngOnInit(): void {
+    this.preloadDescriptions();
+  }
 
   navigateToBlock(block: TimelineBlock): void {
     this.togglePanel();
@@ -33,6 +41,12 @@ export class PanelBlockGroupComponent {
 
   toggleSidePanelBlock(block: TimelineBlock): void {
     block.isSidePanelBlockCollapsed = !block.isSidePanelBlockCollapsed;
+  }
+
+  preloadDescriptions(): void {
+    const groupType: DivisionType = this.group()[0].type;
+    if (groupType === DivisionType.period || groupType === DivisionType.epoch)
+      this.description.getDescriptions(groupType);
   }
 
 }
