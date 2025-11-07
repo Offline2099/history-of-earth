@@ -4,13 +4,14 @@ import { TimelineDirection } from '../../../constants/timeline-direction.enum';
 import { DIVISION_TYPE, DivisionType } from '../../../constants/division-type';
 import { TimelineBlock } from '../../../types/timeline-block.interface';
 import { DescriptionComponent } from '../03-description/description.component';
+import { TimeScaleComponent } from '../04-time-scale/time-scale.component';
 import { TimelineService } from '../../../services/timeline.service';
 import { DescriptionService } from '../../../services/description.service';
 import { DescriptionList } from '../../../types/description';
 
 @Component({
   selector: 'app-division-group',
-  imports: [LowerCasePipe, NgClass, NgTemplateOutlet, DescriptionComponent],
+  imports: [LowerCasePipe, NgClass, NgTemplateOutlet, TimeScaleComponent, DescriptionComponent],
   templateUrl: './division-group.component.html',
   styleUrl: './division-group.component.scss'
 })

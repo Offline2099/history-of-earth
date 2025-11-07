@@ -3,6 +3,7 @@ import { NgClass } from '@angular/common';
 import { TimelineDirection } from '../../../constants/timeline-direction.enum';
 import { TimelineBlock } from '../../../types/timeline-block.interface';
 import { DivisionGroupComponent } from '../02-division-group/division-group.component';
+import { TimeScaleComponent } from '../04-time-scale/time-scale.component';
 
 interface DirectionControlButton {
   id: TimelineDirection;
@@ -22,7 +23,7 @@ const BUTTONS: DirectionControlButton[] = [
 
 @Component({
   selector: 'app-timeline',
-  imports: [NgClass, DivisionGroupComponent],
+  imports: [NgClass, TimeScaleComponent, DivisionGroupComponent],
   templateUrl: './timeline.component.html',
   styleUrl: './timeline.component.scss'
 })

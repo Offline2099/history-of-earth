@@ -1,0 +1,56 @@
+<!-- Upper Block -->
+@if (block(); as block) {
+  <div class="horizontal-container">
+    <div
+      class="division-container upper background-{{block.id}}"
+      (click)="navigateToBlock(block)">
+      <span>{{block.name}} {{TypeName[block.type]}}</span>
+    </div>
+  </div>
+}
+
+<!-- Timeline Divisions -->
+<div class="horizontal-container">
+  @for (division of subBlocks(); track division.id) {
+    <div 
+      class="division-container background-{{division.id}}"
+      [ngClass]="{'narrow': lengthFractions()[division.id] < 0.1}"
+      [ngStyle]="{'width': (100 * lengthFractions()[division.id]) + '%'}"
+      (click)="navigateToBlock(division)">
+      <span>{{division.name}} {{TypeName[division.type]}}</span>
+    </div>
+  }
+</div>
+
+<!-- Time Scale -->
+<div class="horizontal-container scale">
+  <div class="line"></div>
+  @for (mark of tickMarks().major; track $index) {
+    @if (mark.position > 0.05 && mark.position < 0.95) {
+      <div
+        class="tick-mark-major"
+        [ngStyle]="{
+          'right': direction() === Direction.inverse ? 'unset' : mark.elementPosition,
+          'left': direction() === Direction.inverse ? mark.elementPosition : 'unset'
+        }">
+      </div>
+      <span
+        class="label"
+        [ngStyle]="{
+          'right': direction() === Direction.inverse ? 'unset' : mark.elementPosition,
+          'left': direction() === Direction.inverse ? mark.elementPosition : 'unset'
+        }">
+        {{mark.label}}
+      </span> 
+    }
+  }
+  @for (mark of tickMarks().minor; track $index) {
+    <div
+      class="tick-mark-minor"
+      [ngStyle]="{
+        'right': direction() === Direction.inverse ? 'unset' : mark.elementPosition,
+        'left': direction() === Direction.inverse ? mark.elementPosition : 'unset'
+      }">
+    </div>
+  }
+</div>

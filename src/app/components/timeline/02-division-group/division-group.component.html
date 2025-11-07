@@ -73,6 +73,7 @@
 
       <!-- Subdivisions -->
       @if (block.subBlocks.length) {
+        <app-time-scale [direction]="direction()" [block]="block" />
         <div class="subdivisions-container">
           <div class="vertical-line-container">
             <div class="vertical-line"></div>

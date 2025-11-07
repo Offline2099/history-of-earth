@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { timer } from 'rxjs';
+import { TIMELINE } from '../constants/timeline-data/timeline';
 import { TimelineDirection } from '../constants/timeline-direction.enum';
 import { DivisionType } from '../constants/division-type';
 import { TimelineDivision } from '../types/timeline-division.interface';
@@ -11,7 +12,11 @@ import { TimelineBlock } from '../types/timeline-block.interface';
 })
 export class TimelineService {
 
-  constructor(private scroller: ViewportScroller) {}
+  private timeline: TimelineBlock[];
+
+  constructor(private scroller: ViewportScroller) {
+    this.timeline = this.constructTimelineBlocks([], TIMELINE);
+  }
 
   private boundaryText(value: number): string {
     return value ? `≈ ${value} Million Years Ago` : 'Present Time';
@@ -30,7 +35,7 @@ export class TimelineService {
     }
   }
 
-  constructTimelineBlocks(ancestors: TimelineBlock[], divisions: TimelineDivision[]): TimelineBlock[] {
+  private constructTimelineBlocks(ancestors: TimelineBlock[], divisions: TimelineDivision[]): TimelineBlock[] {
     return divisions.map(division => {
       const block: TimelineBlock = {
         ...division,
@@ -49,6 +54,10 @@ export class TimelineService {
       block.subBlocks = this.constructTimelineBlocks([...block.ancestors, block], block.subdivisions);
       return block;
     });
+  }
+
+  getTimeline(): TimelineBlock[] {
+    return this.timeline;
   }
 
   navigateToTimelineBlock(block: TimelineBlock): void {

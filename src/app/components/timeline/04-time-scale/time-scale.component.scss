@@ -1,0 +1,160 @@
+@use 'sass:color';
+@use '../../../../styles-shared' as *;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  width: 1100px;
+  margin: 15px auto;
+  border: 2px solid $border-accent-dark;
+  border-radius: 10px;
+  background-color: $bg-dark;
+  overflow: hidden;
+  user-select: none;
+  &.inside-block {
+    width: min(1175px, calc(100% - 20px));
+    margin: 0 0 25px 0;
+  }
+  @include desktop-small {
+    display: none;
+  }
+}
+
+.horizontal-container {
+  display: flex;
+  width: 100%;
+  :host.reversed & {
+    flex-direction: row-reverse;
+  }
+}
+
+//=============================================================================
+//  Timeline Divisions
+//=============================================================================
+
+@mixin overlay {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.division-container {
+  position: relative;
+  display: flex;
+  flex-grow: 1;
+  justify-content: center;
+  text-align: center;  
+  height: 28px;
+  padding-top: 2px;
+  color: $text-normal;
+  font-size: 15px;
+  transition: .2s;
+  cursor: pointer;
+  &.upper {
+    height: 25px;
+  }
+  &:before {
+    @include overlay;
+    z-index: -1;
+    box-shadow: 0 0 2px 2px $shadow-medium-dark inset;
+    transition: .2s;
+  }
+  &:after {
+    @include overlay;
+    opacity: 0;
+    background-color: $bg-white-transparent-thin;
+    transition: .2s;
+  }
+  span {
+    z-index: 2;
+    white-space: nowrap;
+  }
+  @include hover {
+    color: $text-bright;
+    &:after {
+      opacity: 1;
+    }
+  }
+}
+
+.division-container.narrow span {
+  position: absolute;
+  bottom: calc(100% + 5px);
+  right: calc(50% + 10px);
+  border-bottom: 1px solid $text-dim;
+  &:after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 100%;
+    width: 15px;
+    border-bottom: 1px solid $text-dim;
+    transform-origin: top left;
+    transform: rotate(45deg);
+  }
+  :host.reversed & {
+    right: unset;
+    left: calc(50% + 10px);
+    &:after {
+      left: unset;
+      right: 100%;
+      transform-origin: top right;
+      transform: rotate(-45deg);
+    }
+  }
+}
+
+//=============================================================================
+//  Time Scale
+//=============================================================================
+
+$line-color: color.adjust($border-accent-dark, $lightness: 10%);
+
+.scale {
+  position: relative;
+  height: 25px;
+  background: repeating-linear-gradient(
+    -45deg,
+    $bg-dark 0, $bg-dark 10px,
+    $bg-medium 11px, $bg-medium 12px
+  );
+}
+
+.line {
+  width: 100%;
+  height: 2px;
+  background-color: $line-color;
+}
+
+.tick-mark-major,
+.tick-mark-minor {
+  position: absolute;
+  background-color: $line-color;
+}
+
+.tick-mark-major {
+  width: 3px;
+  height: 12px;
+  transform: translateY(-5px);
+}
+
+.tick-mark-minor {
+  width: 1px;
+  height: 8px;
+  transform: translateY(-3px);
+}
+
+.label {
+  position: absolute;
+  color: $accent;
+  font-size: 14px;
+  font-family: 'Inconsolata', monospace;
+  white-space: nowrap;
+  transform: translate(50%, 8px);
+  :host.reversed & {
+    transform: translate(-50%, 8px);
+  }
+}
