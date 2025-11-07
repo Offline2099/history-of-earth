@@ -36,6 +36,25 @@ export class DivisionGroupComponent {
     this.descriptions = this.description.getDescriptions(this.group()[0].type);
   }
 
+  ngAfterViewInit(): void {
+    this.preloadImages(this.group());
+  }
+
+  preloadImages(group: TimelineBlock[]): void {
+    if (!group) return;
+    const imageURLs: string[] = group.filter(division => division.hasImage).map(division => 
+      `./img/divisions/${DIVISION_TYPE[division.type].toLowerCase()}/${division.id}.webp`
+    );
+    const preload = (index: number) => {
+      if (index === imageURLs.length) return;
+      const img = new Image();
+      img.src = imageURLs[index];
+      img.onload = () => { preload(index + 1) }
+      img.onerror = () => { preload(index + 1) }
+    }
+    preload(0);
+  }
+
   toggleBlock(block: TimelineBlock): void {
     block.isCollapsed = !block.isCollapsed;
   }
