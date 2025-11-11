@@ -1,10 +1,11 @@
-import { Component, HostBinding, input, model } from '@angular/core';
+import { Component, HostBinding, Signal, input, model } from '@angular/core';
 import { LowerCasePipe, NgClass } from '@angular/common';
-import { TimelineDirection } from '../../../constants/timeline-direction.enum';
-import { DIVISION_TYPE, DivisionType } from '../../../constants/division-type';
+import { TimelineDirection } from '../../../constants/timeline-structure/timeline-direction.enum';
+import { DIVISION_TYPE, DivisionType } from '../../../constants/timeline-structure/division-type';
 import { TimelineBlock } from '../../../types/timeline-block.interface';
 import { TimelineService } from '../../../services/timeline.service';
 import { DescriptionService } from '../../../services/description.service';
+import { ScreenService } from '../../../services/screen.service';
 
 @Component({
   selector: 'app-panel-block-group',
@@ -24,7 +25,15 @@ export class PanelBlockGroupComponent {
   direction = input.required<TimelineDirection>();
   isPanelOpen = model.required<boolean>();
 
-  constructor(private timeline: TimelineService, private description: DescriptionService) {}
+  isMobile: Signal<boolean>;
+
+  constructor(
+    private timeline: TimelineService,
+    private description: DescriptionService,
+    private screen: ScreenService
+  ) {
+    this.isMobile = this.screen.isMobile;
+  }
 
   ngOnInit(): void {
     this.preloadDescriptions();

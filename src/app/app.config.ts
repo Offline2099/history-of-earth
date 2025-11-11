@@ -1,7 +1,7 @@
 import { ApplicationConfig, provideZoneChangeDetection, provideAppInitializer, inject } from '@angular/core';
 import { provideHttpClient } from '@angular/common/http';
 import { firstValueFrom } from 'rxjs';
-import { DivisionType } from './constants/division-type';
+import { DivisionType } from './constants/timeline-structure/division-type';
 import { DescriptionService } from './services/description.service';
 
 export const appConfig: ApplicationConfig = {

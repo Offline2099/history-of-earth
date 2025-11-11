@@ -1,10 +1,12 @@
 <!-- Header (Tablet & Mobile) -->
-<div 
-  class="description-header"
-  (click)="toggleSummary(block())">
-  <span>{{TypeName[block().type]}} Summary</span>
-  <span class="triangle">&#9650;</span>
-</div>
+@if (!isDesktop()) {
+  <div 
+    class="description-header"
+    (click)="toggleSummary(block())">
+    <span>{{TypeName[block().type]}} Summary</span>
+    <span class="triangle">&#9650;</span>
+  </div>
+}
 
 <!-- List -->
 <ul>
@@ -22,7 +24,11 @@
               <strong>{{element.text}}</strong>
             }
             @case (DescriptionElementType.time) {
-              <span class="time">{{element.text}}</span>
+              <span
+                app-time-point
+                [direction]="direction()"
+                [point]="element">
+              </span>
             }
           }
         }

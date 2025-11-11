@@ -1,7 +1,7 @@
 import { Injectable, Signal, WritableSignal, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of, tap, catchError, finalize, first } from 'rxjs';
-import { DIVISION_TYPE, DivisionType } from '../constants/division-type';
+import { DIVISION_TYPE, DivisionType } from '../constants/timeline-structure/division-type';
 import { DescriptionList } from '../types/description';
 
 const DATA_URL_BASE: string = 'data/';

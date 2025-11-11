@@ -1,7 +1,7 @@
 import { Component, signal } from '@angular/core';
 import { INTRO_TEXT } from './constants/intro-text';
 import { FOOTER_NOTES } from './constants/footer-notes';
-import { TimelineDirection } from './constants/timeline-direction.enum';
+import { TimelineDirection } from './constants/timeline-structure/timeline-direction.enum';
 import { TimelineBlock } from './types/timeline-block.interface';
 import { TimelineComponent } from './components/timeline/01-timeline/timeline.component';
 import { SidePanelComponent } from './components/side-panel/01-side-panel/side-panel.component';

@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { ViewportScroller } from '@angular/common';
 import { timer } from 'rxjs';
 import { TIMELINE } from '../constants/timeline-data/timeline';
-import { TimelineDirection } from '../constants/timeline-direction.enum';
-import { DivisionType } from '../constants/division-type';
+import { TimelineDirection } from '../constants/timeline-structure/timeline-direction.enum';
+import { DivisionType } from '../constants/timeline-structure/division-type';
 import { TimelineDivision } from '../types/timeline-division.interface';
 import { TimelineBlock } from '../types/timeline-block.interface';
 
@@ -64,6 +64,12 @@ export class TimelineService {
     block.ancestors.forEach(ancestor => ancestor.isCollapsed = false);
     block.isCollapsed = false;
     timer(100).subscribe(() => this.scroller.scrollToAnchor(block.id));
+  }
+
+  timelineBlockByTime(group: TimelineBlock[], time: number): TimelineBlock | undefined {
+    const block: TimelineBlock | undefined = group.find(block => block.start >= time && block.end < time);
+    if (!block || !block.subBlocks.length) return block;
+    return this.timelineBlockByTime(block.subBlocks, time);
   }
 
 }

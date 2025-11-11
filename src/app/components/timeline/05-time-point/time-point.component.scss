@@ -1,0 +1,45 @@
+@use 'sass:color';
+@use '../../../../styles-shared' as *;
+
+:host {
+  position: relative;
+  color: color.adjust($accent, $saturation: 10%, $lightness: 20%);
+  transition: .2s;
+  @include hover {
+    cursor: help;
+    color: color.adjust($accent, $saturation: 30%, $lightness: 15%);
+    @include desktop-small {
+      color: color.adjust($accent, $saturation: 10%, $lightness: 20%);
+      cursor: default;
+    }
+  }
+}
+
+.tooltip {
+  position: fixed;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  width: 1110px;
+  padding: 10px;
+  border: 2px solid $border-accent-dark;
+  border-radius: 10px;
+  background: $bg-dark;
+  animation: fade-in .1s .1s both;
+  @include hover {
+    display: none;
+  }
+  @include desktop-small {
+    width: calc(100% - 40px);
+  }
+}
+
+.trapezoid {
+  position: relative;
+  z-index: -1;
+  width: 100%;
+  height: 50px;
+  opacity: .5;
+  transform-origin: bottom;
+  transform: scaleY(calc(72 / 50));
+}

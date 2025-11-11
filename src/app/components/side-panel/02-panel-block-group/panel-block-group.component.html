@@ -11,11 +11,13 @@
       <!-- Division Link -->
       <div class="division-link" (click)="navigateToBlock(block)">
         <div class="division-name">{{block.name}} {{TypeName[block.type]}}</div>
-        <div class="division-duration">
-          @for (text of block.duration[direction()]; track $index) {
-            <span>{{text}}</span> 
-          }
-        </div>
+        @if (!isMobile()) {
+          <div class="division-duration">
+            @for (text of block.duration[direction()]; track $index) {
+              <span>{{text}}</span> 
+            }
+          </div>
+        }
       </div>
 
       <!-- Expand/Collapse Button -->

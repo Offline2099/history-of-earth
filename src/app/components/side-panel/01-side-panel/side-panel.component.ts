@@ -1,6 +1,6 @@
 import { Component, HostListener, input, signal } from '@angular/core';
 import { NgClass, ViewportScroller } from '@angular/common';
-import { TimelineDirection } from '../../../constants/timeline-direction.enum';
+import { TimelineDirection } from '../../../constants/timeline-structure/timeline-direction.enum';
 import { TimelineBlock } from '../../../types/timeline-block.interface';
 import { PanelBlockGroupComponent } from '../02-panel-block-group/panel-block-group.component';
 

@@ -1,5 +1,5 @@
-import { DescriptionPartCategory } from '../constants/description-part-category';
-import { DescriptionElementType } from '../constants/description-element-type.enum';
+import { DescriptionPartCategory } from '../constants/description-structure/description-part-category';
+import { DescriptionElementType } from '../constants/description-structure/description-element-type.enum';
 
 export interface DescriptionPart {
   category: DescriptionPartCategory;
@@ -9,6 +9,8 @@ export interface DescriptionPart {
 export interface DescriptionElement {
   type: DescriptionElementType;
   text: string;
+  start?: number;
+  end?: number;
 }
 
 export type Description = DescriptionPart[];

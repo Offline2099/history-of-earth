@@ -4,6 +4,7 @@
   display: flex;
   flex-direction: column;
   width: 100%;
+  overflow-x: hidden;
   &.reversed {
     flex-direction: column-reverse;
   }
@@ -57,7 +58,6 @@
   width: 100%;
   margin: 0 auto;
   border-radius: 10px;
-  overflow: hidden;
   transition: .3s;
   &:before {
     content: '';
@@ -184,9 +184,6 @@
   }
   @include desktop-small {
     padding: 10px 5px 10px 40px;
-  }
-  @include tablet {
-    display: none;
   }
 }
 
@@ -322,7 +319,7 @@
       margin-top: 4px;
       padding-bottom: 4px;
       border-radius: 3px;
-      font-size: smaller;
+      font-size: 14px;
     }
   }
 }
@@ -379,7 +376,6 @@
   .vertical-line-container {
     display: flex;
     justify-content: center;
-    height: 100%;
     margin: 0 5px 0 4px;
     padding: 0 10px;
     .vertical-line {
@@ -393,9 +389,6 @@
   }  
   @include tablet {
     width: min(735px, 100% - 30px);
-    .vertical-line-container {
-      display: none;
-    }
   }
   @include mobile {
     width: calc(100% - 10px);

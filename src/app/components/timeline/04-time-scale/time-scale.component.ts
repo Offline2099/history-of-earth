@@ -1,7 +1,7 @@
 import { Component, HostBinding, computed, input } from '@angular/core';
 import { NgClass, NgStyle } from '@angular/common';
-import { TimelineDirection } from '../../../constants/timeline-direction.enum';
-import { DIVISION_TYPE } from '../../../constants/division-type';
+import { TimelineDirection } from '../../../constants/timeline-structure/timeline-direction.enum';
+import { DIVISION_TYPE } from '../../../constants/timeline-structure/division-type';
 import { TimelineBlock } from '../../../types/timeline-block.interface';
 import { TimelineService } from '../../../services/timeline.service';
 
@@ -27,6 +27,9 @@ export class TimeScaleComponent {
   @HostBinding('class.inside-block') get isInsideBlock(): boolean {
     return this.block() !== undefined;
   }
+  @HostBinding('class.inside-tooltip') get _isInsideTooltip(): boolean {
+    return this.isInsideTooltip();
+  }
   @HostBinding('class.reversed') get isReversed(): boolean {
     return this.direction() === TimelineDirection.inverse;
   }
@@ -36,10 +39,11 @@ export class TimeScaleComponent {
 
   direction = input.required<TimelineDirection>();
   block = input<TimelineBlock>();
+  isInsideTooltip = input<boolean>(false);
+  timeMarkerStart = input<number>(-1);
+  timeMarkerEnd = input<number>(-1);
 
-  eons: TimelineBlock[];
-
-  subBlocks = computed<TimelineBlock[]>(() => this.block()?.subBlocks || this.eons);
+  subBlocks = computed<TimelineBlock[]>(() => this.block()?.subBlocks || this.timeline.getTimeline());
   
   start = computed<number>(() => this.subBlocks()[this.subBlocks().length - 1].end);
   end = computed<number>(() => this.subBlocks()[0].start);
@@ -49,9 +53,14 @@ export class TimeScaleComponent {
 
   tickMarks = computed<Scale>(() => this.constructScale(1e3 * this.start(), 1e3 * this.end()));
 
-  constructor(private timeline: TimelineService) {
-    this.eons = this.timeline.getTimeline();
-  }
+  markerPosition = computed<string>(() => 
+    this.calculateMarkerPosition(this.timeMarkerStart(), this.end(), this.start())
+  );
+  markerLength = computed<string>(() => 
+    this.calculateMarkerLength(this.timeMarkerStart(), this.timeMarkerEnd(), this.end(), this.start())
+  );
+
+  constructor(private timeline: TimelineService) {}
 
   calculateLengthFractions(blocks: TimelineBlock[], length: number): Record<string, number> {
     return blocks.reduce((acc, block) => {
@@ -101,6 +110,17 @@ export class TimeScaleComponent {
     return length > 2e6 
       ? `${Math.round(value / 1e6)} Billion Years Ago`
       : `${Math.round(value / 1e3)} Million Years Ago`;
+  }
+
+  calculateMarkerPosition(marker: number, start: number, end: number): string {
+    return `calc(${100 * (start - marker) / (start - end)}% - 3px)`;
+  }
+
+  calculateMarkerLength(markerStart: number, markerEnd: number, start: number, end: number): string {
+    if (markerEnd < 0) return '6px';
+    const startPercentage: number = 100 * (start - markerStart) / (start - end);
+    const endPercentage: number = 100 * (start - markerEnd) / (start - end);
+    return `calc(${endPercentage - startPercentage}% + 6px)`;
   }
 
   navigateToBlock(block: TimelineBlock): void {

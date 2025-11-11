@@ -1,0 +1,29 @@
+<!-- Text Content -->
+<ng-container>{{point().text}}</ng-container>
+
+<!-- Tooltip (Desktop) -->
+@if (isDesktop() && block() && isHovered()) {
+  <div #tooltip class="tooltip">
+    <app-time-scale
+      [direction]="direction()"
+      [isInsideTooltip]="true"
+      [timeMarkerStart]="start()"
+      [timeMarkerEnd]="end()"
+    />
+    @for (ancestor of block()!.ancestors; track ancestor.id) {
+      @if (!(point().end && !isMarkerWithinParent() && $last)) {
+        <div
+          class="trapezoid background-{{ancestor.id}}"
+          [ngStyle]="{'clip-path': clipPaths()[ancestor.id]}">
+        </div>
+        <app-time-scale
+          [direction]="direction()"
+          [block]="ancestor"
+          [isInsideTooltip]="true"
+          [timeMarkerStart]="start()"
+          [timeMarkerEnd]="end()"
+        />
+      }      
+    }
+  </div>
+}

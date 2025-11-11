@@ -1,4 +1,4 @@
-import { DivisionType } from '../constants/division-type';
+import { DivisionType } from '../constants/timeline-structure/division-type';
 
 export interface TimelineDivision {
   type: DivisionType;

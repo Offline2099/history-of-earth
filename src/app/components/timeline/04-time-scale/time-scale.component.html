@@ -24,7 +24,11 @@
 
 <!-- Time Scale -->
 <div class="horizontal-container scale">
+
+  <!-- Line -->
   <div class="line"></div>
+
+  <!-- Major Tick Marks & Labels -->
   @for (mark of tickMarks().major; track $index) {
     @if (mark.position > 0.05 && mark.position < 0.95) {
       <div
@@ -44,6 +48,8 @@
       </span> 
     }
   }
+
+  <!-- Minor Tick Marks -->
   @for (mark of tickMarks().minor; track $index) {
     <div
       class="tick-mark-minor"
@@ -53,4 +59,17 @@
       }">
     </div>
   }
+
+  <!-- Time Markers -->
+  @if (timeMarkerStart() >= 0) {
+    <div
+      class="marker"
+      [ngClass]="{'interval': timeMarkerEnd() >= 0}"
+      [ngStyle]="{
+        'left': markerPosition(),
+        'width': markerLength()
+      }">
+    </div>
+  }
+
 </div>

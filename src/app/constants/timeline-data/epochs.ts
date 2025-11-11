@@ -1,4 +1,4 @@
-import { DivisionType } from '../division-type';
+import { DivisionType } from '../timeline-structure/division-type';
 import { TimelineDivision } from '../../types/timeline-division.interface';
 
 export const Paleocene: TimelineDivision = {

@@ -1,4 +1,4 @@
-import { TimelineDirection } from '../constants/timeline-direction.enum';
+import { TimelineDirection } from '../constants/timeline-structure/timeline-direction.enum';
 import { TimelineDivision } from './timeline-division.interface';
 
 export interface TimelineBlock extends TimelineDivision {

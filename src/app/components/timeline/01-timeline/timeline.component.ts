@@ -1,9 +1,10 @@
-import { Component, input, model } from '@angular/core';
+import { Component, Signal, input, model } from '@angular/core';
 import { NgClass } from '@angular/common';
-import { TimelineDirection } from '../../../constants/timeline-direction.enum';
+import { TimelineDirection } from '../../../constants/timeline-structure/timeline-direction.enum';
 import { TimelineBlock } from '../../../types/timeline-block.interface';
 import { DivisionGroupComponent } from '../02-division-group/division-group.component';
 import { TimeScaleComponent } from '../04-time-scale/time-scale.component';
+import { ScreenService } from '../../../services/screen.service';
 
 interface DirectionControlButton {
   id: TimelineDirection;
@@ -34,6 +35,12 @@ export class TimelineComponent {
 
   timeline = input.required<TimelineBlock[]>()
   direction = model.required<TimelineDirection>();
+
+  isDesktop: Signal<boolean>;
+
+  constructor(private screen: ScreenService) {
+    this.isDesktop = this.screen.isDesktop;
+  }
 
   setDirection(direction: TimelineDirection): void {
     this.direction.set(direction);

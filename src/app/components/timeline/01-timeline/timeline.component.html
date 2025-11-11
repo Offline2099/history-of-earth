@@ -17,9 +17,13 @@
   <div class="timeline-image">
     <img src="./img/timeline/timeline-start.webp" alt="">
   </div>
-  <app-time-scale [direction]="direction()" />
+  @if (isDesktop()) {
+    <app-time-scale [direction]="direction()" />
+  }
   <app-division-group [group]="timeline()" [direction]="direction()" />
-  <app-time-scale [direction]="direction()" />
+  @if (isDesktop()) {
+    <app-time-scale [direction]="direction()" />
+  }
   <div class="timeline-image">
     <img src="./img/timeline/timeline-end.webp" alt="">
   </div>

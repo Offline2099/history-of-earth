@@ -1,13 +1,14 @@
 import { Component, HostBinding, Signal, input } from '@angular/core';
 import { LowerCasePipe, NgClass, NgTemplateOutlet } from '@angular/common';
-import { TimelineDirection } from '../../../constants/timeline-direction.enum';
-import { DIVISION_TYPE, DivisionType } from '../../../constants/division-type';
+import { TimelineDirection } from '../../../constants/timeline-structure/timeline-direction.enum';
+import { DIVISION_TYPE, DivisionType } from '../../../constants/timeline-structure/division-type';
 import { TimelineBlock } from '../../../types/timeline-block.interface';
+import { DescriptionList } from '../../../types/description';
 import { DescriptionComponent } from '../03-description/description.component';
 import { TimeScaleComponent } from '../04-time-scale/time-scale.component';
 import { TimelineService } from '../../../services/timeline.service';
 import { DescriptionService } from '../../../services/description.service';
-import { DescriptionList } from '../../../types/description';
+import { ScreenService } from '../../../services/screen.service';
 
 @Component({
   selector: 'app-division-group',
@@ -30,7 +31,15 @@ export class DivisionGroupComponent {
 
   descriptions!: Signal<DescriptionList | null>;
 
-  constructor(private timeline: TimelineService, private description: DescriptionService) {}
+  isDesktop: Signal<boolean>;
+
+  constructor(
+    private timeline: TimelineService,
+    private description: DescriptionService,
+    private screen: ScreenService
+  ) {
+    this.isDesktop = this.screen.isDesktop;
+  }
 
   ngOnInit(): void {
     this.descriptions = this.description.getDescriptions(this.group()[0].type);
