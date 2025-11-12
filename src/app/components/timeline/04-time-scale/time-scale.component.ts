@@ -16,6 +16,11 @@ interface Scale {
   minor: TickMark[];
 }
 
+interface Range {
+  start: number;
+  end: number;
+}
+
 @Component({
   selector: 'app-time-scale',
   imports: [NgClass, NgStyle],
@@ -43,42 +48,51 @@ export class TimeScaleComponent {
   timeMarkerStart = input<number>(-1);
   timeMarkerEnd = input<number>(-1);
 
-  subBlocks = computed<TimelineBlock[]>(() => this.block()?.subBlocks || this.timeline.getTimeline());
-  
-  start = computed<number>(() => this.subBlocks()[this.subBlocks().length - 1].end);
-  end = computed<number>(() => this.subBlocks()[0].start);
+  group = computed<TimelineBlock[]>(() => this.block()?.subBlocks || this.timeline.getTimeline());
+
+  scale = computed<Range>(() => ({
+    start: this.group()[this.group().length - 1].end,
+    end: this.group()[0].start
+  }));
   lengthFractions = computed<Record<string, number>>(() => 
-    this.calculateLengthFractions(this.subBlocks(), this.end() - this.start())
+    this.calculateLengthFractions(this.group(), this.scale())
   );
 
-  tickMarks = computed<Scale>(() => this.constructScale(1e3 * this.start(), 1e3 * this.end()));
+  tickMarks = computed<Scale>(() => 
+    this.constructTickMarks(this.direction(), this.scale())
+  );
 
+  marker = computed<Range>(() => ({
+    start: this.timeMarkerStart(),
+    end: this.timeMarkerEnd()
+  }));
   markerPosition = computed<string>(() => 
-    this.calculateMarkerPosition(this.timeMarkerStart(), this.end(), this.start())
+    this.calculateMarkerPosition(this.direction(), this.marker(), this.scale())
   );
   markerLength = computed<string>(() => 
-    this.calculateMarkerLength(this.timeMarkerStart(), this.timeMarkerEnd(), this.end(), this.start())
+    this.calculateMarkerLength(this.marker(), this.scale())
   );
 
   constructor(private timeline: TimelineService) {}
 
-  calculateLengthFractions(blocks: TimelineBlock[], length: number): Record<string, number> {
+  calculateLengthFractions(blocks: TimelineBlock[], scale: Range): Record<string, number> {
+    const length: number = scale.end - scale.start;
     return blocks.reduce((acc, block) => {
       acc[block.id] = (block.start - block.end) / length;
       return acc;
     }, {} as Record<string, number>);
   }
 
-  constructScale(scaleStart: number, scaleEnd: number): Scale {
-    const length: number = scaleEnd - scaleStart;
+  constructTickMarks(direction: TimelineDirection, scale: Range): Scale {
+    const length: number = scale.end - scale.start;
     const magnitude: number = `${Math.round(length)}`.length - 1;
-    const start: number = this.floorToMagnitude(scaleStart, magnitude);
+    const start: number = this.floorToMagnitude(scale.start, magnitude);
     let step: number = Math.pow(10, magnitude);
     if (step > 0.4 * length) step /= 2;
     if (step < 0.2 * length) step *= 2;
     return {
-      major: this.constructMarks(scaleStart, scaleEnd, start, step, true),
-      minor: this.constructMarks(scaleStart, scaleEnd, start, step / 10, false)
+      major: this.constructMarks(direction, scale, start, step, true),
+      minor: this.constructMarks(direction, scale, start, step / 10, false)
     }
   }
 
@@ -87,14 +101,15 @@ export class TimeScaleComponent {
     return factor * Math.floor(n / factor);
   }
 
-  constructMarks(scaleStart: number, scaleEnd: number, start: number, step: number, isMajor: boolean): TickMark[] {
-    if (scaleEnd < start || step <= 0) return [];
+  constructMarks(direction: TimelineDirection, scale: Range, start: number, step: number, isMajor: boolean): TickMark[] {
+    if (scale.end < start || step <= 0) return [];
     const marks: TickMark[] = [];
-    const length: number = scaleEnd - scaleStart;
+    const length: number = scale.end - scale.start;
     let time = start;
-    while (time < scaleEnd) {
-      if (time > scaleStart) {
-        const position: number = (time - scaleStart) / length;
+    while (time < scale.end) {
+      if (time > scale.start && !(!isMajor && !(time % (10 * step)))) {
+        let position: number = (time - scale.start) / length;
+        if (direction === TimelineDirection.inverse) position = 1 - position;
         marks.push({
           position,
           elementPosition: isMajor ? `calc(${100 * position}% - 1px)` : `${100 * position}%`,
@@ -107,19 +122,25 @@ export class TimeScaleComponent {
   }
 
   tickMarkLabel(value: number, length: number): string {
-    return length > 2e6 
-      ? `${Math.round(value / 1e6)} Billion Years Ago`
-      : `${Math.round(value / 1e3)} Million Years Ago`;
+    return length > 2e3 
+      ? `${Math.round(value / 1e3)} Billion Years Ago`
+      : `${Math.round(value)} Million Years Ago`;
   }
 
-  calculateMarkerPosition(marker: number, start: number, end: number): string {
-    return `calc(${100 * (start - marker) / (start - end)}% - 3px)`;
+  calculateMarkerPosition(direction: TimelineDirection, marker: Range, scale: Range): string {
+    const scaleLength: number = scale.end - scale.start;
+    const markerLength: number = marker.end > 0 ? (marker.start - marker.end) : 0;
+    const position: number = direction === TimelineDirection.chronological
+      ? (scale.end - marker.start) / scaleLength
+      : 1 - (scale.end - marker.start) / scaleLength - markerLength / scaleLength;
+    return `calc(${100 * position}% - 3px)`;
   }
 
-  calculateMarkerLength(markerStart: number, markerEnd: number, start: number, end: number): string {
-    if (markerEnd < 0) return '6px';
-    const startPercentage: number = 100 * (start - markerStart) / (start - end);
-    const endPercentage: number = 100 * (start - markerEnd) / (start - end);
+  calculateMarkerLength(marker: Range, scale: Range): string {
+    if (marker.end < 0) return '6px';
+    const scaleLength = scale.end - scale.start;
+    const startPercentage: number = 100 * (scale.end - marker.start) / scaleLength;
+    const endPercentage: number = 100 * (scale.end - marker.end) / scaleLength;
     return `calc(${endPercentage - startPercentage}% + 6px)`;
   }
 

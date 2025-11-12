@@ -66,14 +66,6 @@ $marker-color: color.adjust($border-accent-dark, $lightness: 25%);
   font-size: 15px;
   transition: .2s;
   cursor: pointer;
-  & + & {
-    border-left: none;
-  }
-  &.upper {
-    height: 25px;
-    border-bottom: none;
-    border-radius: 8px 8px 0 0;
-  }
   &:before {
     @include element-overlay;
     z-index: -1;
@@ -86,10 +78,18 @@ $marker-color: color.adjust($border-accent-dark, $lightness: 25%);
     background-color: $bg-white-transparent-thin;
     transition: .2s;
   }
-  :host.inside-block & span {
-    white-space: nowrap;
+  &.upper {
+    height: 25px;
+    border-bottom: none;
+    border-radius: 8px 8px 0 0;
   }
-  :host:not(.inside-block) & {
+  :host:not(.reversed) & {
+    &:not(:first-of-type) {
+      border-left: none;
+    }
+    
+  }
+  :host:not(.reversed):not(.inside-block) & {
     &:first-of-type {
       border-top-left-radius: 8px;
     }
@@ -97,19 +97,43 @@ $marker-color: color.adjust($border-accent-dark, $lightness: 25%);
       border-top-right-radius: 8px;
     }
   }
+  :host.reversed & {
+    &:not(:last-of-type) {
+      border-left: none;
+    }
+  }
+  :host.reversed:not(.inside-block) & {
+    &:first-of-type {
+      border-top-right-radius: 8px;
+    }
+    &:last-of-type {
+      border-top-left-radius: 8px;
+    }
+  }
+  :host.inside-block & span {
+    white-space: nowrap;
+  }
   :host.inside-tooltip & {
+    border-radius: 0 !important;
     &.upper {
-      border-radius: 0;
       border-left: none;
       border-right: none;
     }
+  }
+  :host.inside-tooltip:not(.reversed) & {
     &:first-of-type {
-      border-radius: 0;
       border-left: none;
     }
     &:last-of-type {
-      border-radius: 0;
       border-right: none;
+    }
+  }
+  :host.reversed.inside-tooltip & {
+    &:first-of-type {
+      border-right: none;
+    }
+    &:last-of-type {
+      border-left: none;
     }
   }
   @include hover {
@@ -202,9 +226,6 @@ $marker-color: color.adjust($border-accent-dark, $lightness: 25%);
   font-family: 'Inconsolata', monospace;
   white-space: nowrap;
   transform: translate(50%, 8px);
-  :host.reversed & {
-    transform: translate(-50%, 8px);
-  }
 }
 
 //=============================================================================

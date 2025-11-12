@@ -11,10 +11,10 @@
 
 <!-- Timeline Divisions -->
 <div class="horizontal-container">
-  @for (division of subBlocks(); track division.id) {
+  @for (division of group(); track division.id) {
     <div 
       class="division-container background-{{division.id}}"
-      [ngClass]="{'narrow': lengthFractions()[division.id] < 0.1}"
+      [ngClass]="{'narrow': lengthFractions()[division.id] < .1}"
       [ngStyle]="{'width': (100 * lengthFractions()[division.id]) + '%'}"
       (click)="navigateToBlock(division)">
       <span>{{division.name}} {{TypeName[division.type]}}</span>
@@ -31,33 +31,14 @@
   <!-- Major Tick Marks & Labels -->
   @for (mark of tickMarks().major; track $index) {
     @if (mark.position > 0.05 && mark.position < 0.95) {
-      <div
-        class="tick-mark-major"
-        [ngStyle]="{
-          'right': direction() === Direction.inverse ? 'unset' : mark.elementPosition,
-          'left': direction() === Direction.inverse ? mark.elementPosition : 'unset'
-        }">
-      </div>
-      <span
-        class="label"
-        [ngStyle]="{
-          'right': direction() === Direction.inverse ? 'unset' : mark.elementPosition,
-          'left': direction() === Direction.inverse ? mark.elementPosition : 'unset'
-        }">
-        {{mark.label}}
-      </span> 
+      <div class="tick-mark-major" [ngStyle]="{'right': mark.elementPosition}"></div>
+      <span class="label" [ngStyle]="{'right': mark.elementPosition}">{{mark.label}}</span>
     }
   }
 
   <!-- Minor Tick Marks -->
   @for (mark of tickMarks().minor; track $index) {
-    <div
-      class="tick-mark-minor"
-      [ngStyle]="{
-        'right': direction() === Direction.inverse ? 'unset' : mark.elementPosition,
-        'left': direction() === Direction.inverse ? mark.elementPosition : 'unset'
-      }">
-    </div>
+    <div class="tick-mark-minor" [ngStyle]="{'right': mark.elementPosition}"></div>
   }
 
   <!-- Time Markers -->

@@ -48,7 +48,7 @@ export class TimePointComponent {
     !this.markerSpansOutsideParent(this.block(), this.point().end)
   );
   clipPaths = computed<Record<string, string>>(() => 
-    this.constructClipPaths(this.block()?.ancestors || [])
+    this.constructClipPaths(this.block()?.ancestors || [], this.direction())
   );
   start = computed<number>(() => this.point().start || -1);
   end = computed<number>(() => this.point().end || -1);
@@ -117,14 +117,14 @@ export class TimePointComponent {
       block.ancestors[block.ancestors.length - 1].id;
   }
 
-  constructClipPaths(blocks: TimelineBlock[]): Record<string, string> {
+  constructClipPaths(blocks: TimelineBlock[], direction: TimelineDirection): Record<string, string> {
     return blocks.reduce((acc, block) => {
-      acc[block.id] = this.constructClipPath(block);
+      acc[block.id] = this.constructClipPath(block, direction);
       return acc;
     }, {} as Record<string, string>);
   }
 
-  constructClipPath(block: TimelineBlock): string {
+  constructClipPath(block: TimelineBlock, direction: TimelineDirection): string {
     const parent: TimelineBlock | null = block.ancestors.length > 0
       ? block.ancestors[block.ancestors.length - 1]
       : null;
@@ -133,7 +133,9 @@ export class TimePointComponent {
     const parentLength: number = parentStart - parentEnd;
     const start: number = (parentStart - block.start) / parentLength;
     const end: number = (parentStart - block.end) / parentLength;
-    return `polygon(${100* start}% 0, ${100 * end}% 0, 100% 100%, 0% 100%)`;
+    return direction === TimelineDirection.chronological
+      ? `polygon(${100 * start}% 0, ${100 * end}% 0, 100% 100%, 0% 100%)`
+      : `polygon(${100 * (1 - end)}% 0, ${100 * (1 - start)}% 0, 100% 100%, 0% 100%)`;
   }
 
   ngOnDestory(): void {
