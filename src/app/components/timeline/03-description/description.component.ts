@@ -17,7 +17,7 @@ import { ScreenService } from '../../../services/screen.service';
 export class DescriptionComponent {
 
   @HostBinding('class.collapsed') get isCollapsed(): boolean {
-    return this.block().isSummaryCollapsed;
+    return this.block().isSummaryCollapsed && !this.isDesktop();
   }
 
   readonly TypeName = DIVISION_TYPE;

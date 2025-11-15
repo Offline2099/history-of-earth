@@ -32,6 +32,7 @@ export class DivisionGroupComponent {
   descriptions!: Signal<DescriptionList | null>;
 
   isDesktop: Signal<boolean>;
+  isMobile: Signal<boolean>;
 
   constructor(
     private timeline: TimelineService,
@@ -39,6 +40,7 @@ export class DivisionGroupComponent {
     private screen: ScreenService
   ) {
     this.isDesktop = this.screen.isDesktop;
+    this.isMobile = this.screen.isMobile;
   }
 
   ngOnInit(): void {

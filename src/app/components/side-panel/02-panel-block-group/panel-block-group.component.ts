@@ -15,6 +15,7 @@ import { ScreenService } from '../../../services/screen.service';
 })
 export class PanelBlockGroupComponent {
 
+  readonly DivisionType = DivisionType;
   readonly TypeName = DIVISION_TYPE;
 
   @HostBinding('class.reversed') get isReversed(): boolean { 

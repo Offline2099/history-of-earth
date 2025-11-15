@@ -5,9 +5,9 @@
   [ngClass]="{'visible-on-mobile': verticalOffset > 200 || isPanelOpen()}"
   (click)="togglePanel()">
   @if (isPanelOpen()) {
-    <span class="cross">&#9587;</span>
+    <img class="icon" src="./icons/cross.svg" alt="" />
   } @else {
-    <span class="hamburger">&#9776;</span>
+    <img class="icon" src="./icons/hamburger.svg" alt="" />
   }  
 </button>
 

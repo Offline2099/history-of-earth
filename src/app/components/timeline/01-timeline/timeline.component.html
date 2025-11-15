@@ -1,6 +1,6 @@
 <!-- Controls -->
 <div class="controls">
-  <div class="controls-label">Timeline Direction: </div>
+  <div class="label">Timeline Direction: </div>
   @for (button of BUTTONS; track button.id) {
     <button
       type="button" 
@@ -13,8 +13,13 @@
 </div>
 
 <!-- Timeline -->
-<div class="timeline-wrapper" [ngClass]="{'reversed': direction() === TimelineDirection.inverse}">
-  <div class="timeline-image">
+<div
+  class="timeline-wrapper"
+  [ngClass]="{
+    'reversed': direction() === TimelineDirection.inverse,
+    'fading-in': isFadingIn
+  }">
+  <div class="image-wrapper">
     <img src="./img/timeline/timeline-start.webp" alt="">
   </div>
   @if (isDesktop()) {
@@ -24,7 +29,7 @@
   @if (isDesktop()) {
     <app-time-scale [direction]="direction()" />
   }
-  <div class="timeline-image">
+  <div class="image-wrapper">
     <img src="./img/timeline/timeline-end.webp" alt="">
   </div>
 </div>

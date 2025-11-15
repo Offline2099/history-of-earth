@@ -1,12 +1,28 @@
+@use 'sass:color';
+
+//=============================================================================
+//  Text
+//=============================================================================
+
 // Simple Text
-$text-dark: #888;
+$text-dim-darker: #888;
 $text-dim: #999;
+$text-normal-darker: #afafaf;
 $text-normal: #bbb;
 $text-bright: #d8d8d8;
-$text-selection: #ddd;
 
 // Accent Text
 $accent: #9c815f;
+$accent-lighter: color.adjust($accent, $lightness: 5%);
+$accent-bright: color.adjust($accent, $saturation: 10%, $lightness: 20%);
+$accent-intense: color.adjust($accent, $saturation: 30%, $lightness: 15%);
+
+// Selection
+$text-selection: #ddd;
+
+//=============================================================================
+//  Backgrounds
+//=============================================================================
 
 // Simple Backgrounds
 $bg-base: #080808;
@@ -15,8 +31,13 @@ $bg-medium: #181818;
 $bg-bright: #222;
 $bg-brighter: #242424;
 
-// Transparent Black Backgrounds
+// Accent Backgroungs
+$bg-accent-dark: #3f3427;
+
+// Selection
 $bg-selection: rgba(0, 255, 204, .25);
+
+// Transparent Black Backgrounds
 $bg-black-transparent-thin: rgba(0, 0, 0, .1);
 $bg-black-transparent-medium-thin: rgba(0, 0, 0, .15);
 $bg-black-transparent-medium: rgba(0, 0, 0, .2);
@@ -27,8 +48,12 @@ $bg-black-transparent-thick: rgba(0, 0, 0, .6);
 $bg-white-transparent-thin: rgba(255, 255, 255, .025);
 $bg-white-transparent-thick: rgba(255, 255, 255, .045);
 
+//=============================================================================
+//  Borders
+//=============================================================================
+
 // Simple Borders
-$border-very-dark: #282828;
+$border-faint: #282828;
 $border-dark: #666;
 $border-medium: #777;
 $border-bright: #888;
@@ -36,6 +61,10 @@ $border-bright: #888;
 // Accent Borders
 $border-accent-dark: #3f3427;
 $border-accent: #9e8261;
+
+//=============================================================================
+//  Shadows
+//=============================================================================
 
 // Simple Shadows
 $shadow-darker: #080808;

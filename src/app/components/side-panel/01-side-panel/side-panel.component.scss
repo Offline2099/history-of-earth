@@ -25,21 +25,9 @@ $side-panel-z-index: 10000;
   background: $bg-bright;
   color: $text-normal;
   user-select: none;
-  cursor: pointer;
   animation: fade-in .3s;
   transition: .2s;
-  .hamburger,
-  .cross {
-    animation: fade-in .3s;
-  }
-  .hamburger {
-    height: 38px;
-    font-size: 26px;
-  }
-  .cross {
-    height: 27px;
-    font-size: 16px;
-  }
+  cursor: pointer;
   @include hover {
     border-radius: 10px;
     background: $bg-brighter;
@@ -52,6 +40,12 @@ $side-panel-z-index: 10000;
       display: flex;
     }
   }
+}
+
+.icon {
+  width: 26px;
+  height: 26px;
+  animation: fade-in .3s;
 }
 
 //=============================================================================
@@ -82,9 +76,8 @@ $side-panel-width: 600px;
   &.panel-open {
     right: 0;
   }
-  .side-panel-header {
-    margin-bottom: 5px;
-    padding: 8px 50px 12px 10px;
+  &-header {
+    padding: 8px 50px 17px 10px;
     color: $accent;
     text-align: center;
     font-size: 24px;

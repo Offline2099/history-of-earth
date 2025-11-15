@@ -11,10 +11,10 @@
       <!-- Division Link -->
       <div class="division-link" (click)="navigateToBlock(block)">
         <div class="division-name">{{block.name}} {{TypeName[block.type]}}</div>
-        @if (!isMobile()) {
+        @if (!isMobile() && !(block.isSidePanelBlockCollapsed && block.type !== DivisionType.eon)) {
           <div class="division-duration">
             @for (text of block.duration[direction()]; track $index) {
-              <span>{{text}}</span> 
+              <span>{{text}} </span>
             }
           </div>
         }
@@ -36,7 +36,9 @@
     <!-- Subdivisions -->
     @if (block.subBlocks.length && !block.isSidePanelBlockCollapsed) {
       <div class="subdivisions-container">
-        <div class="vertical-line"></div>
+        @if (!isMobile()) {
+          <div class="vertical-line"></div>
+        }
         <app-panel-block-group [group]="block.subBlocks" [direction]="direction()" [(isPanelOpen)]="isPanelOpen" />
       </div>
     }

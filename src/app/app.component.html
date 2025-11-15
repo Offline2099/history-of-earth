@@ -16,18 +16,16 @@
 
 <!-- Footer -->
 <footer>
-  <div class="footer-column">
-    <div class="column-header">Notes</div>
-    <div class="column-body">
-      <ul>
-        @for (note of FOOTER_NOTES; track $index) {
-          <li>{{note}}</li>
-        }
-      </ul>
-    </div>
+  <div class="column">
+  <div class="column-header">Notes</div>
+    <ul>
+      @for (note of FOOTER_NOTES; track $index) {
+        <li>{{note}}</li>
+      }
+    </ul>
   </div>
   <img
-    class="footer-image-decorative"
+    class="image-decorative"
     src="./img/footer/dinosaur-skeleton-decorative.webp"
     alt=""
   />

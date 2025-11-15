@@ -1,15 +1,14 @@
-@use 'sass:color';
 @use '../../../../styles-shared' as *;
 
 :host {
   position: relative;
-  color: color.adjust($accent, $saturation: 10%, $lightness: 20%);
+  color: $accent-bright;
   transition: .2s;
   @include hover {
     cursor: help;
-    color: color.adjust($accent, $saturation: 30%, $lightness: 15%);
-    @include desktop-small {
-      color: color.adjust($accent, $saturation: 10%, $lightness: 20%);
+    color: $accent-intense;
+    @include tablet {
+      color: $accent-bright;
       cursor: default;
     }
   }
@@ -19,7 +18,7 @@
   position: fixed;
   top: 100%;
   left: 0;
-  z-index: 100;
+  z-index: 1000;
   width: 1110px;
   padding: 10px;
   border: 2px solid $border-accent-dark;

@@ -16,20 +16,23 @@
     [ngClass]="{'collapsed': block.isCollapsed}">
 
     <!-- Timeline Division Header -->
-    <div class="division-header">
-      @if (isDesktop()) {
-        @for (ancestor of block.ancestors; track ancestor.id) {
-          <span class="division-ancestor">
-            <span class="division-ancestor-title" (click)="navigateToBlock(ancestor)">
-              {{ancestor.name}} {{TypeName[ancestor.type]}}
+    @if (block.type !== DivisionType.eon && (isDesktop() || block.isCollapsed)) {
+      <div class="division-header">
+        <div class="division-header-overlay" (click)="toggleBlock(block)"></div>
+        @if (isDesktop()) {
+          @for (ancestor of block.ancestors; track ancestor.id) {
+            <span class="division-ancestor" (click)="$event.stopPropagation()">
+              <span class="division-ancestor-title" (click)="navigateToBlock(ancestor)">
+                <ng-container>{{ancestor.name}} {{TypeName[ancestor.type]}}</ng-container>
+              </span>
             </span>
-          </span>
+          }
         }
-      }
-      <span class="division-title" (click)="toggleBlock(block)">
-        {{block.name}} {{TypeName[block.type]}}
-      </span>
-    </div>
+        <span class="division-title">
+          {{block.name}} {{TypeName[block.type]}}
+        </span>
+      </div>
+    }
 
     @if (!block.isCollapsed) {
       <div class="division-data">
@@ -39,15 +42,15 @@
           <!-- Timeline Division Name and Duration -->
           <div class="division-properties">
 
+            @if (!isMobile() && block.hasImage) {
+              <ng-template [ngTemplateOutlet]="collapseButton" [ngTemplateOutletContext]="{block}" />
+            }
+
             <div class="division-name">
               <span>{{block.name}} {{TypeName[block.type]}}</span>
-              <button 
-                type="button"
-                class="division-collapse-button"
-                [ngClass]="{'button-above': block.hasImage}"
-                (click)="toggleBlock(block)">
-                &#9650;
-              </button>
+              @if (isMobile() || !block.hasImage) {
+                <ng-template [ngTemplateOutlet]="collapseButton" [ngTemplateOutletContext]="{block}" />
+              }
             </div>
 
             <div class="division-duration">
@@ -55,6 +58,7 @@
                 <div>{{line}}</div>
               }
             </div>
+
           </div>
           
           <!-- Timeline Division Image -->
@@ -108,4 +112,17 @@
     <div class="boundary-value">{{text}}</div>
     <div class="boundary-line"></div>
   </div>
+</ng-template>
+
+<!-- Collapse Button Template -->
+<ng-template #collapseButton let-block="block">
+  @if (block.type !== DivisionType.eon && !isDesktop()) {
+    <button 
+      type="button"
+      class="division-collapse-button"
+      [ngClass]="{'button-above': block.hasImage && !isMobile()}"
+      (click)="toggleBlock(block)">
+      <ng-container>&#9650;</ng-container>
+    </button>
+  }
 </ng-template>

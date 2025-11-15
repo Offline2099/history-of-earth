@@ -6,8 +6,8 @@
   flex-wrap: wrap;
   align-items: center;
   width: min(760px, 100%);
-  margin: 20px;
-  transition: .5s;
+  margin: 20px 20px 20px 10px;
+  animation: fade-in .5s;
   @include tablet {
     width: min(735px, 100% - 32px);
     margin: 10px 15px 12px 15px;
@@ -18,11 +18,9 @@
     margin: 10px 0;
   }
   &.collapsed {
-    @include tablet {
-      background: $bg-black-transparent-thin;
-      box-shadow: 0 0 3px 3px $shadow-black-transparent-thin inset;
-      cursor: pointer;
-    }
+    background: $bg-black-transparent-thin;
+    box-shadow: 0 0 3px 3px $shadow-black-transparent-thin inset;
+    cursor: pointer;
   }
 }
 
@@ -41,38 +39,29 @@
   font-size: 18px;
   letter-spacing: .02em;
   transition: .3s;
-  .triangle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 16px;
-    height: 16px;
-    margin-left: 1.5em;
-    color: $text-dim;
-    font-size: smaller;
-    transform-origin: center;
-    transform: rotateX(0deg);
-    transition: 250ms;
-  }
   @include mobile {
     font-size: 16px;
   }
+  :host.collapsed & {
+    border-color: transparent;
+  }
 }
 
-:host.collapsed {
-  @include tablet {
-    .description-header {
-      border-color: transparent;
-      .triangle {
-        transform: rotateX(180deg) translateY(-3px);
-      }
-    }
-  }
-  @include mobile {
-    .description-header {
-      .triangle {
-        transform: rotateX(180deg) translateY(-2px);
-      }
+.triangle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-left: 1.5em;
+  color: $text-dim;
+  font-size: smaller;
+  transform: rotateX(0deg);
+  transition: 250ms;
+  :host.collapsed & {
+    transform: rotateX(180deg) translateY(-3px);
+    @include mobile {
+      transform: rotateX(180deg) translateY(-2px);
     }
   }
 }
@@ -84,6 +73,7 @@
 ul {
   margin-left: 20px;
   font-size: 16px;
+  line-height: 1.5;
   letter-spacing: .01em;
   animation: fade-in .5s;
   li {
@@ -97,21 +87,6 @@ ul {
     &::marker {
       content: '\2B9E';
       font-size: smaller;
-    }
-    .badge {
-      margin-right: 5px;
-      padding: 1px 5px 2px 5px;
-      border-radius: 3px;
-      background-color: $border-accent-dark;
-      font-family: 'Inconsolata', monospace;
-      font-weight: 500;
-      letter-spacing: 0.02em;
-      user-select: none;
-    }
-    strong {
-      color: $text-bright;
-      font-weight: 500;
-      letter-spacing: .02em;
     }
   }
   @include desktop-small {
@@ -131,10 +106,23 @@ ul {
   }
 }
 
-:host.collapsed {
-  @include tablet {
-    ul {
-      display: none;
-    }
-  }
+//=============================================================================
+//  Description Elements
+//=============================================================================
+
+.badge {
+  margin-right: 5px;
+  padding: 1px 5px 2px 5px;
+  border-radius: 3px;
+  background-color: $bg-accent-dark;
+  font-family: 'Inconsolata', monospace;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+strong {
+  color: $text-bright;
+  font-weight: 500;
+  letter-spacing: .02em;
 }
